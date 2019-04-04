@@ -36,7 +36,7 @@
  
         function setup() {
             createCanvas(windowWidth,windowHeight).parent("aqui");
-            background(225);
+            background(185,135,184);
             print(data);
             noLoop();
             noStroke();
@@ -45,13 +45,13 @@
             
             for(var n = 0; n < 6; n++){
                 if(data[n].seconds < 10){
-                    fill(230,0,0);
+                    fill(220,220,0);
                 } else {
                     fill(100);
                 }
-                ellipse(
+                rect(
                     width/7*(n+1),
-                    data[n].seconds+20,
+                    data[n].seconds+60,
                     10,
                     10
                     );                
