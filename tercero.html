@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <style>
+        *{ margin:0; padding:0;}
+        body {height:100%; width:100%; overflow:hidden;}
+        #menu { top: 1rem; right: 1rem; position: fixed; z-index:9999; }
+    </style>
+    
+    <title>Ejercicios de p5.js</title>
+</head>
+    
+<body>
+    <!-- este será el munú -->
+    <select id="menu" onchange="location=this.value;">
+        <option value="index.html">index.html</option>
+        <option value="segundo.html">segundo.html</option>
+        <option value="tercero.html" selected>tercero.html</option>
+        <option value="cuarto.html">cuarto.html</option>
+    </select>
+    <!-- este div recibirá al canvas-->
+    <div id="aqui"></div>
+    <!-- vamos a buscar la biblioteca -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+    <script>
+        //Ahora podemos usar la biblioteca que fuimos a buscar
+        //Dibujo resultado de repetición (patrón)
+        
+ var option;
+
+function setup() {
+	createCanvas(windowWidth, windowHeight);
+	background(100);
+	option = 1;
+}
+
+function draw() {
+	if (option == 1){
+	
+	for (var x = 50; x < windowWidth-50; x+= 20) {
+  for (var y = 50; y < windowHeight-50; y+=20) {
+  	line(x-5, y-5, x+5, y+5);
+  	line(x+5, y-5, x-5, y+5);
+		}
+	}
+}
+	else if (option == 2) {
+    
+    for (var x = 50; x < windowWidth-50; x+= 20) {
+    for (var y = 50; y < windowHeight-50; y+=20) {
+        line(x, y, width/2, height/2);
+      }
+    }
+  } 
+	else if (option == 3) {
+		
+		for (var x = 50; x < windowWidth-50; x+=20) {
+		for (var y = 50; y < windowHeight-50; y+=20) {
+			 ellipse(x, y, 40, 40);
+      }
+    }
+  } 
+
+}
+function mousePressed() {
+  option++;
+  if (option > 3) option = 1;
+}
+    </script>
+</body>
+</html>

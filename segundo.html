@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        *{ margin:0; padding:0;}
+        body {height:100%; width:100%; overflow:hidden;}
+        #menu { top: 1rem; right: 1rem; position: fixed; z-index:9999; }
+    </style>
+    <title>Ejercicios de p5.js</title>
+</head>
+    
+<body>
+    <!-- este será el munú -->
+    <select id="menu" onchange="location=this.value;">
+        <option value="index.html">index.html</option>
+        <option value="segundo.html" selected>segundo.html</option>
+        <option value="tercero.html">tercero.html</option>
+        <option value="cuarto.html">cuarto.html</option>
+      
+    </select>
+    <!-- este div recibirá al canvas-->
+    <div id="aqui"></div>
+    <!-- vamos a buscar la biblioteca -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+    <script>
+        //Ahora podemos usar la biblioteca que fuimos a buscar
+        //Dibujo resultado de repetición (patrón)
+        
+var blockSize, circNum, sivId;
+var isColorMode = true;
+var bgClr = 250;
+var colors = ['#152A3B', '#158ca7', '#F5C03E', '#D63826', '#0F4155', '#7ec873', '#4B3331'];
+        
+        function setup() {
+            createCanvas(windowWidth,windowHeight).parent("aqui");
+            background (0);
+            noLoop();
+            strokeWeight(1.5);
+            strokeCap (SQUARE);
+            stroke(0,200);
+            sivId = setInterval(function () { genParcattern(); }, 3000);
+        }
+function draw(){
+  genParcattern();
+}
+
+function mousePressed(evt){
+  if (evt.target.nodeName === 'CANVAS') {
+    if (sivId) { clearInterval(sivId); }
+
+    if (evt.button === 0) {
+      genParcattern();
+    } else if (evt.button === 1) {
+      isColorMode = !isColorMode;
+      genParcattern();
+    }
+  }
+}
+
+function genParcattern() {
+  circNum = ~~random(4, 10);
+  blockSize = ~~random(30, 70);
+
+  if (isColorMode) { bgClr = colors[colors.length - 1]; } else { bgClr = 250; }
+	fill(bgClr); rect(0, 0, width, height);
+
+  for(var y = blockSize/2; y < height+blockSize/2 ; y+= blockSize){
+    for(var x = blockSize/2; x < width+blockSize/2 ; x+= blockSize){
+      push();
+      translate(x, y);
+      rotate(HALF_PI * Math.round(random(4)));
+
+      for(var i = circNum; i > 0; --i){
+        var diam = blockSize * 2 * i / (circNum + 1);
+        if(i < 2 || !isColorMode){fill(bgClr);} else{ fill(colors[separateIdx(i - 1, circNum + 1)]); }
+        arc(-blockSize/2, -blockSize/2, diam, diam, 0, HALF_PI );
+      }
+
+      for(var i = circNum; i > 0; --i){
+        var diam = blockSize * 2 * i / (circNum + 1);
+        if(i < 2 || !isColorMode){ fill(bgClr); } else { fill(colors[separateIdx(i - 1, circNum + 1)]); }
+        arc(-blockSize/2+blockSize, -blockSize/2+blockSize, diam, diam, PI, PI + HALF_PI);
+      }
+      pop();
+    }
+  }
+  colors = shuffleArray(colors);
+}
+
+function keyTyped() {
+  switch(key.toLowerCase()) {
+    case 'g': genParcattern(); break;
+    case 'b': isColorMode = !isColorMode; genParcattern(); break;
+    case 's': save('parcattern-' + ~~random(100, 900)+ '.png'); break;
+  }
+}
+
+function separateIdx(idx, length){
+  return Math.floor(Math.abs(idx - (length - 1) / 2 ));
+}
+
+function shuffleArray(array) {
+  var j, temp;
+  for (var i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+}
+        
+        function windowResized(){
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>
